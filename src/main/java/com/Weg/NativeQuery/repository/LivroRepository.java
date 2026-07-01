@@ -115,6 +115,6 @@ public interface LivroRepository extends JpaRepository<Livro, Long> {
             """)
     List<AutorNomeNacionalidade> retornaAutorMinimo();
 
-    <T> List<T> dinamic(Class<T> type);
+    <T> List<T> findBy(Class<T> type);
 
 }

@@ -1,5 +1,6 @@
 package com.Weg.NativeQuery.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -72,5 +73,75 @@ public class LivroService {
         }
         livroRepository.delete(livro);
     }
+
+    public List<LivroResponse> readByTitulo(String nome) {
+        List<Livro> livros = livroRepository.findByTitulo(nome);
+        return livros.stream().map(livroMapper::toResponse).toList();
+    }
+
+    public List<LivroResponse> readByCategoriaBeforePreco(String categoria, BigDecimal preco) {
+        List<Livro> livros = livroRepository.findByCategoriaAndPrecoBefore(categoria, preco);
+        return livros.stream().map(livroMapper::toResponse).toList();
+    }
+
+    public List<LivroResponse> readByPrecoBetween(BigDecimal min, BigDecimal max) {
+        List<Livro> livros = livroRepository.findByPrecoBetween(min, max);
+        return livros.stream().map(livroMapper::toResponse).toList();
+    }
+
+    public List<LivroResponse> readByCategoriaIn(List<String> categorias) {
+        List<Livro> livros = livroRepository.findByCategoriaIn(categorias);
+        return livros.stream().map(livroMapper::toResponse).toList();
+    }
+
+    public List<LivroResponse> readByIsbnNull() {
+        List<Livro> livros = livroRepository.findByIsbnIsNull();
+        return livros.stream().map(livroMapper::toResponse).toList();
+    }
+
+    public List<LivroResponse> readByEditoraOrderByTituloAsc(Long id) {
+        Editora editora = editoraRepository.findById(id).orElse(null);
+        if (editora == null) {
+            throw new RuntimeException("A editora não existe");
+        }
+        List<Livro> livros = livroRepository.findByEditoraOrderByTituloAsc(editora);
+        return livros.stream().map(livroMapper::toResponse).toList();
+    }
+
+    public Long countByautoresNacionalidade(String nacionalidade) {
+        Long count = livroRepository.countByAutoresNacionalidade(nacionalidade);
+        return count;
+    }
+
+    // JPQL
+    public List<String> apenasTitulosPorCategoria(String categoria) {
+        List<String> livros = livroRepository.apenasTitulosPorCategoria(categoria);
+        return livros;
+    }
+
+    public List<LivroResponse> nomeAutorIgualParametro(String nomeAutor) {
+        List<Livro> livros = livroRepository.nomeAutorIgualParametro(nomeAutor);
+        return livros.stream().map(livroMapper::toResponse).toList();
+    }
+
+    public List<LivroResponse> buscarComFetch(Long livroId) {
+        List<Livro> livros = livroRepository.buscarComFetch(livroId);
+        return livros.stream().map(livroMapper::toResponse).toList();
+    }
+
+    public BigDecimal mediaPrecoLivrosDeEditora(Long editoraId) {
+        Editora editora = editoraRepository.findById(editoraId).orElse(null);
+        if (editora == null) {
+            throw new RuntimeException("A editora não existe!");
+        }
+        BigDecimal media = livroRepository.mediaPrecoLivrosDeEditora(editora);
+        return media;
+    }
+
+    public List<LivroResponse> livrosPrecoMaiorMedia() {
+        List<Livro> livros = livroRepository.livrosPrecoMaiorMedia();
+        return livros.stream().map(livroMapper::toResponse).toList();
+    }
+    
 
 }

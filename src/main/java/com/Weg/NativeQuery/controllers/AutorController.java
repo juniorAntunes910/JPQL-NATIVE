@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @AllArgsConstructor
 public class AutorController {
 
-    private AutorService autorService;
+    private final AutorService autorService;
 
     @PostMapping()
     public ResponseEntity<AutorResponse> create(@RequestBody AutorRequest entity) {

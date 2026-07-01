@@ -26,7 +26,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class LivroController {
 
-    private LivroService livroService;
+    private final LivroService livroService;
 
     @PostMapping()
     public ResponseEntity<LivroResponse> create(LivroRequest livroRequest) {

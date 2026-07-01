@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @AllArgsConstructor
 public class EditoraController {
 
-    private EditoraService editoraService;
+    private final EditoraService editoraService;
 
     @PostMapping()
     public ResponseEntity<EditoraResponse> create(EditoraRequest editoraRequest) {
