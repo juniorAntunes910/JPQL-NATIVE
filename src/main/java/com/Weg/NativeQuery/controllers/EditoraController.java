@@ -16,8 +16,12 @@ import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/editoras")
@@ -37,8 +41,19 @@ public class EditoraController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EditoraResponse> readById(@PathParam Long id) {
+    public ResponseEntity<EditoraResponse> readById(@PathVariable Long id) {
         return new ResponseEntity<>(editoraService.readById(id), HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EditoraResponse> update(@PathVariable Long id, @RequestBody EditoraRequest entity) {
+        return new ResponseEntity<>(editoraService.update(id, entity), HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        editoraService.delete(id);
+        return ResponseEntity.ok().build();
     }
 
 }

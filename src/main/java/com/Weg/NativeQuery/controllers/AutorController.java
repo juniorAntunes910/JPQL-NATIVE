@@ -53,7 +53,7 @@ public class AutorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id){
         autorService.delete(id);
         return ResponseEntity.ok().build();
     }
