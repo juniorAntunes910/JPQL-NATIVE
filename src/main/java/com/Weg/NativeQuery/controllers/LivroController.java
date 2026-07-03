@@ -20,6 +20,8 @@ import com.Weg.NativeQuery.dto.LivroResponse;
 import com.Weg.NativeQuery.services.LivroService;
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/livros")
@@ -53,5 +55,12 @@ public class LivroController {
         livroService.delete(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/titulo/{titulo}")
+    public ResponseEntity<List<LivroResponse>> readByTitulo(@RequestParam String nome) {
+        return new ResponseEntity<>(livroService.readByTitulo(nome), HttpStatus.ACCEPTED);
+    }
+
+    
 
 }

@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.Weg.NativeQuery.dto.AutorResponse;
 import com.Weg.NativeQuery.dto.LivroRequest;
 import com.Weg.NativeQuery.dto.LivroResponse;
 import com.Weg.NativeQuery.mapper.LivroMapper;
 import com.Weg.NativeQuery.model.Autor;
 import com.Weg.NativeQuery.model.Editora;
 import com.Weg.NativeQuery.model.Livro;
+import com.Weg.NativeQuery.projection.AutorNomeNacionalidade;
 import com.Weg.NativeQuery.repository.AutorRepository;
 import com.Weg.NativeQuery.repository.EditoraRepository;
 import com.Weg.NativeQuery.repository.LivroRepository;
@@ -142,6 +144,20 @@ public class LivroService {
         List<Livro> livros = livroRepository.livrosPrecoMaiorMedia();
         return livros.stream().map(livroMapper::toResponse).toList();
     }
-    
+
+    public List<LivroResponse> livroDataPublicacao2023() {
+        List<Livro> livros = livroRepository.livrosDataPublicacao2023();
+        return livros.stream().map(livroMapper::toResponse).toList();
+    }
+
+    public List<LivroResponse> buscarPorCategoriaIgnorando(String categoria) {
+        List<Livro> livros = livroRepository.buscarPorCategoriaIgnorando(categoria);
+        return livros.stream().map(livroMapper::toResponse).toList();
+    }
+
+    public List<AutorNomeNacionalidade> retornaAutorMinimo() {
+        List<AutorNomeNacionalidade> livros = livroRepository.retornaAutorMinimo();
+        return livros;
+    }
 
 }
