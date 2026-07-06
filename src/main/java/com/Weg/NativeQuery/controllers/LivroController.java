@@ -1,5 +1,6 @@
 package com.Weg.NativeQuery.controllers;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -17,11 +18,11 @@ import com.Weg.NativeQuery.dto.EditoraRequest;
 import com.Weg.NativeQuery.dto.EditoraResponse;
 import com.Weg.NativeQuery.dto.LivroRequest;
 import com.Weg.NativeQuery.dto.LivroResponse;
+import com.Weg.NativeQuery.projection.AutorNomeNacionalidade;
 import com.Weg.NativeQuery.services.LivroService;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping("/livros")
@@ -61,6 +62,76 @@ public class LivroController {
         return new ResponseEntity<>(livroService.readByTitulo(nome), HttpStatus.ACCEPTED);
     }
 
-    
+    @GetMapping("/categoriaPreco/{categoria}")
+    public ResponseEntity<List<LivroResponse>> readByCategoriaBeforePreco(@PathVariable String categoria,
+            @RequestBody BigDecimal preco) {
+        return new ResponseEntity<>(livroService.readByCategoriaBeforePreco(categoria, preco), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/precobetween")
+    public ResponseEntity<List<LivroResponse>> readByPrecoBetween(@RequestParam BigDecimal min,
+            @RequestParam BigDecimal max) {
+        return new ResponseEntity<>(livroService.readByPrecoBetween(min, max), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/categoriaIn")
+    public ResponseEntity<List<LivroResponse>> readByCategoriaIn(@RequestBody List<String> categorias) {
+        return new ResponseEntity<>(livroService.readByCategoriaIn(categorias), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/readByIsbnNull")
+    public ResponseEntity<List<LivroResponse>> readByIsbnNull() {
+        return new ResponseEntity<>(livroService.readByIsbnNull(), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/editoraTitulo/{id}")
+    public ResponseEntity<List<LivroResponse>> readByEditoraOrderByTituloAsc(@PathVariable long id) {
+        return new ResponseEntity<>(livroService.readByEditoraOrderByTituloAsc(id), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/countAutoresNacionalidade/{nacionalidade}")
+    public ResponseEntity<Long> coutByAutoresNacionalidade(@PathVariable String nacionalidade) {
+        return new ResponseEntity<>(livroService.countByautoresNacionalidade(nacionalidade), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/titulosPorCategoria/{categoria}")
+    public ResponseEntity<List<String>> apenasTitulosPorCategoria(@PathVariable String categoria) {
+        return new ResponseEntity<>(livroService.apenasTitulosPorCategoria(categoria), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/nomeAutorIgualParametro/{nomeAutor}")
+    public ResponseEntity<List<LivroResponse>> nomeAutorIgualParametro(@PathVariable String nomeAutor) {
+        return new ResponseEntity<>(livroService.nomeAutorIgualParametro(nomeAutor), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/buscarComFetch/{livroId}")
+    public ResponseEntity<List<LivroResponse>> buscarComFetch(@PathVariable long livroId) {
+        return new ResponseEntity<>(livroService.buscarComFetch(livroId), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/mediaLivrosPorEditora/{editoraId}")
+    public ResponseEntity<BigDecimal> mediaPrecoLivroEditora(@PathVariable long editoraId) {
+        return new ResponseEntity<>(livroService.mediaPrecoLivrosDeEditora(editoraId), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/livrosPrecoMaiorMedia")
+    public ResponseEntity<List<LivroResponse>> livroPrecoMaiorMedia() {
+        return new ResponseEntity<>(livroService.livrosPrecoMaiorMedia(), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/livroDatPublicacao2023")
+    public ResponseEntity<List<LivroResponse>> livrodataPublicacao2023() {
+        return new ResponseEntity<>(livroService.livroDataPublicacao2023(), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/categoriaIgnorando/{categoria}")
+    public ResponseEntity<List<LivroResponse>> categoriaIgnorando(@PathVariable String categoria) {
+        return new ResponseEntity<>(livroService.buscarPorCategoriaIgnorando(categoria), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/retornaAutorMinimo")
+    public ResponseEntity<List<AutorNomeNacionalidade>> retornaAutorMinimo() {
+        return new ResponseEntity<>(livroService.retornaAutorMinimo(), HttpStatus.ACCEPTED);
+    }
 
 }
